@@ -29,15 +29,16 @@ class Window:
         self.welcome = tk.Label(window, text = "Welcome to this quiz. Press START to continue")
 
         self.butt = tk.Button(window, text = "START", command=lambda: [self.go(window), self.butt.destroy(),self.welcome.destroy()])
+        # this is a list of what the user clicks
         self.result_list = []
 
         self.welcome.grid(row =0, column = 1, columnspan=4, rowspan =2) 
         self.butt.grid(row =2, column = 2, columnspan=2)
 
-        self.q_a = {"What colours do you like?":["Bold","Neutral","Pastel","Black/White"],
+        self.q_a = {"What colours do you like?":["Black/White","Neutral","Pastel","Bold"],
                     "What does a majority of your day consist of?":["Walking","Sitting","Running","Ziplining"],
-                    "q3":["WOOGA1","CHRISTMAS2","TWILERBEE","a4"],
-                    "q4":["SOAP","SHAMPOO","CONFITIONER","TOOTHPASTE"],}
+                    "What is something important when you buy shoes?":["Comfort","Easy to run","They look cool","Gives me height"],
+                    "What is your personal clothing style":["Minimalistic","Streetwear","Dark Academia","Just clothes?"],}
         self.question_number = 0
 
         
@@ -164,7 +165,6 @@ class Window:
     def the_end(self,window):
         # when i start using grid
         # put in frame and just delete frame
-        print("RAHHHHHH")
 
         # destroy everythin inside the window
         self.finish_btn.destroy()
@@ -178,11 +178,17 @@ class Window:
 
         # add the end
         # add results
-  
-    
-
+        if sum(self.result_list) > 0 and sum(self.result_list)<=4:
+            final_label = tk.Label(text = "Sneakers")
+        elif sum(self.result_list) > 4 and sum(self.result_list)<=9:
+            final_label = tk.Label(text = "Boots :P")
+        elif sum(self.result_list) > 9 and sum(self.result_list)<=14:
+            final_label = tk.Label(text = "Platform Sneakers")
+        else:
+            final_label = tk.Label(text = "Loafers")
+        final_label.grid(row =1, column =1, rowspan =2, columnspan = 4)
 
      
-powr_ranger = Window(root)
+open_window = Window(root)
 
 root.mainloop()
