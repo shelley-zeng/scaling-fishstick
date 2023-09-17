@@ -3,7 +3,7 @@ Filename: Shoe quiz.
 
 Author: shelley
 
-Date: 24.08.23
+Date: 16.09.23
 
 Description: This is a quiz for the user to figure out what shoe would
 suit their lifestyle and style.
@@ -70,7 +70,7 @@ class Window:
                                                                 ]}
 
         # this is the starting question number
-        self.question_number = 0
+        self.q_number = 0
 
         # this gets ALL the question and adds it to a list
         "self.q = list(self.q_a.keys())"
@@ -86,7 +86,7 @@ class Window:
 
         # FROM 2nd q. up only if the user has entered
         # something in their previous question
-        if 0 < self.question_number < len(self.answer_list):
+        if 0 < self.q_number < len(self.answer_list):
             if user_retry > 0:
                 self.btn_1.destroy()
                 self.btn_2.destroy()
@@ -99,7 +99,7 @@ class Window:
                 self.nxt_button.destroy()
             else:
                 pass
-            self.the_answers = self.answer_list[self.question_number]
+            self.the_answers = self.answer_list[self.q_number]
 
             # destroy prev. q buttons and labels
             self.btn_1.destroy()
@@ -111,7 +111,7 @@ class Window:
             self.question_frame.destroy()
             self.nxt_button.destroy()
 
-            # adds all the answer_buttons with grid
+            
             self.btn_1 = Button(window, text=self.the_answers[0],
                                 command=lambda: self.results(1))
             self.btn_1.grid(row=1, column=1, columnspan=2)
@@ -129,7 +129,8 @@ class Window:
             self.question_frame = tk.Frame(master=window, bg="#ECECEC",
                                            width=200, height=50)
             self.question_label = tk.Label(self.question_frame,
-                                           text=self.question_list[self.question_number],
+                                           text=self.question_list[self.q_number
+                                                                   ],
                                            bg="#ECECEC", fg="#609F63")
             self.question_frame.grid(row=0, column=1, columnspan=4)
             self.question_frame.grid_propagate(False)
@@ -137,17 +138,21 @@ class Window:
 
             self.nxt_button = Button(window, text=">",
                                      command=lambda: [self.save_answer(window),
-                                                      self.next_button(window)],
+                                                      self.next_button(window)
+                                                      ],
                                      width=3)
             self.nxt_button.grid(row=3, column=3)
 
             # question number
-            self.numb_lbl = self.question_number + 1
-            self.numb_lbl = tk.Label(window, text=f"{self.numb_lbl}/{len(self.question_list)}")
+            q_num_lbl =f"{self.q_number+1}/{len(self.question_list)}"
+
+            self.numb_lbl = tk.Label(window,
+                                     text=q_num_lbl)
             self.numb_lbl.grid(row=3, column=0)
 
         # this is for the first question
-        elif self.question_number < len(self.answer_list) and len(self.result_list) == self.question_number:
+        elif (self.q_number < len(self.answer_list)
+              and len(self.result_list) == self.q_number):
             if user_retry > 0:
                 self.btn_1.destroy()
                 self.btn_2.destroy()
@@ -165,14 +170,14 @@ class Window:
             self.question_frame = tk.Frame(master=window, bg="#ECECEC",
                                            width=200, height=50)
             self.question_label = tk.Label(self.question_frame,
-                                           text=self.question_list[self.question_number],
+                                           text=self.question_list[self.q_number],
                                            bg="#ECECEC", fg="#609F63")
             self.question_frame.grid(row=0, column=1, columnspan=4)
             self.question_frame.grid_propagate(False)
             self.question_label.grid(padx=25)
 
             # this gets a list of just the answers for specified q
-            self.the_answers = self.answer_list[self.question_number]
+            self.the_answers = self.answer_list[self.q_number]
 
             # all the answer buttons + gridded
             self.btn_1 = Button(window, text=self.the_answers[0],
@@ -203,12 +208,13 @@ class Window:
             self.nxt_button.grid(row=3, column=3)
 
             # this adds the question number into a list
+            q_num_lbl =f"{self.q_number+1}/{len(self.question_list)}"
             self.numb_lbl = tk.Label(window,
-                                     text=f"{self.question_number+1}/{len(self.question_list)}")
+                                     text=q_num_lbl)
             self.numb_lbl.grid(row=3, column=0)
             user_retry += 1
 
-        elif self.question_number == len(self.answer_list):
+        elif self.q_number == len(self.answer_list):
             # destroy prev. q buttons and labels.
             self.btn_1.destroy()
             self.btn_2.destroy()
@@ -223,12 +229,12 @@ class Window:
             pass
     def add_question(self):
         """Add to the question number."""
-        self.question_number += 1
+        self.q_number += 1
 
     def back_question(self):
         """Reduce the question nummber to go back."""
-        if self.question_number >= 1:
-            self.question_number -= 1
+        if self.q_number >= 1:
+            self.q_number -= 1
         else:
             pass
 
@@ -271,15 +277,15 @@ class Window:
             self.no_answer(window)
         self.users_answer_list.clear()
 
-    def saved_from_back(self):
+    def saved_from_back(self, window):
         """Save users answer to a list when they've clicked back"""
         if len(self.users_answer_list) == 1:
-            self.result_list.insert(self.question_number,
+            self.result_list.insert(self.q_number,
                                     self.users_answer_list[0])
             self.add_question()
 
         elif len(self.users_answer_list) > 1:
-            self.result_list[self.question_number] = self.users_answer_list[-1]
+            self.result_list[self.q_number] = self.users_answer_list[-1]
             self.add_question()
 
         else:
@@ -293,10 +299,9 @@ class Window:
         # to the next question when clicked
         # this lets the user go from question 1 to question 2
         # if user clicks back button, the question nunber is back one
-        if 0 <= self.question_number < len(self.answer_list):
+        if 0 <= self.q_number < len(self.answer_list):
 
-            self.the_answers = self.answer_list[self.question_number]
-            #self.question_number += 1
+            self.the_answers = self.answer_list[self.q_number]
             # destroy prev. q buttons
             self.btn_1.destroy()
             self.btn_2.destroy()
@@ -305,6 +310,7 @@ class Window:
             self.numb_lbl.destroy()
             self.question_label.destroy()
             self.nxt_button.destroy()
+            self.question_frame.destroy()
 
             self.btn_1 = Button(window, text=self.the_answers[0],
                                 command=lambda: self.results_conjugate(1))
@@ -319,25 +325,31 @@ class Window:
                                 command = lambda: self.results_conjugate(4))
             self.btn_4.grid(row=2, column=3, columnspan =2)
 
-            self.question_frame = tk.Label(self.question_frame,
-                                           text=self.question_list[self.question_number],
+            self.question_frame = tk.Frame(master=window, bg="#ECECEC",
+                                           width=200, height=50)
+            self.question_label = tk.Label(self.question_frame,
+                                           text=self.question_list[self.q_number
+                                                                   ],
                                            bg="#ECECEC", fg="#609F63")
-            self.question_frame.grid(row=0, column=1,
-                                     columnspan=4)
+            self.question_frame.grid(row=0, column=1, columnspan=4)
+            self.question_frame.grid_propagate(False)
+            self.question_label.grid()
 
             #print(type(self.numb_lbl))
+            lbl_text = f"{self.q_number+1}/{len(self.question_list)}"
             self.numb_lbl = tk.Label(window,
-                                     text=f"{self.question_number+1}/{len(self.question_list)}")
+                                     text= lbl_text)
             self.numb_lbl.grid(row=3, column=0)
 
             self.nxt_button = Button(window, text=">",
-                                     command=lambda: [self.saved_from_back(),
+                                     command=lambda: [
+                                         self.saved_from_back(window),
                                                       self.next_button(window)
                                                       ], width=3)
             self.nxt_button.grid(row=3, column=3)
 
         else:
-            self.question_number += 1
+            self.q_number += 1
 
     def the_end(self,window):
         # when i start using grid
