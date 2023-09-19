@@ -3,7 +3,7 @@ Filename: Shoe quiz.
 
 Author: shelley
 
-Date: 19.09.23
+Date: 24.08.23
 
 Description: This is a quiz for the user to figure out what shoe would
 suit their lifestyle and style.
@@ -105,7 +105,6 @@ class Window:
                 self.numb_lbl.destroy()
                 self.question_label.destroy()
                 self.question_frame.destroy()
-                self.nxt_button.destroy()
             else:
                 pass
             self.the_answers = self.answer_list[self.q_number]
@@ -118,21 +117,26 @@ class Window:
             self.numb_lbl.destroy()
             self.question_label.destroy()
             self.question_frame.destroy()
-            self.nxt_button.destroy()
-
-
             
             self.btn_1 = Button(window, text=self.the_answers[0],
-                                command=lambda: self.results(1))
+                                command=lambda: [self.results(1),
+                                                 self.save_answer(window),
+                                                 self.next_button(window)])
             self.btn_1.grid(row=1, column=1, columnspan=2)
             self.btn_2 = Button(window, text=self.the_answers[1],
-                                command=lambda: self.results(2))
+                                command=lambda: [self.results(2),
+                                                 self.save_answer(window),
+                                                 self.next_button(window)])
             self.btn_2.grid(row=1, column=3, columnspan=2)
             self.btn_3 = Button(window, text=self.the_answers[2],
-                                command=lambda: self.results(3))
+                                command=lambda: [self.results(3),
+                                                 self.save_answer(window),
+                                                 self.next_button(window)])
             self.btn_3.grid(row=2, column=1, columnspan=2)
             self.btn_4 = Button(window, text=self.the_answers[3],
-                                command=lambda: self.results(4))
+                                command=lambda: [self.results(4),
+                                                 self.save_answer(window),
+                                                 self.next_button(window)])
             self.btn_4.grid(row=2, column=3, columnspan=2)
 
             # questions
@@ -146,13 +150,6 @@ class Window:
             self.question_frame.grid(row=0, column=1, columnspan=4)
             self.question_frame.grid_propagate(False)
             self.question_label.grid(padx=15, pady = 5)
-
-            self.nxt_button = Button(window, text=">",
-                                     command=lambda: [self.save_answer(window),
-                                                      self.next_button(window)
-                                                      ],
-                                     width=3)
-            self.nxt_button.grid(row=3, column=3)
 
             # question number
             q_num_lbl =f"{self.q_number+1}/{len(self.question_list)}"
@@ -174,7 +171,6 @@ class Window:
                 self.question_label.destroy()
                 self.question_frame.destroy()
                 self.bck_button.destroy()
-                self.nxt_button.destroy()
             else:
                 pass
             self.user_retry += 1
@@ -194,38 +190,38 @@ class Window:
 
             # all the answer buttons + gridded
             self.btn_1 = Button(window, text=self.the_answers[0],
-                                command=lambda: self.results(1))
+                                command=lambda: [self.results(1),
+                                                 self.save_answer(window),
+                                                 self.next_button(window)])
             self.btn_1.grid(row=1, column=1, columnspan=2)
             self.btn_2 = Button(window, text=self.the_answers[1],
-                                command=lambda: self.results(2))
+                                command=lambda: [self.results(2),
+                                                 self.save_answer(window),
+                                                 self.next_button(window)])
             self.btn_2.grid(row=1, column=3, columnspan=2)
             self.btn_3 = Button(window, text=self.the_answers[2],
-                                command=lambda: self.results(3))
+                                command=lambda: [self.results(3),
+                                                 self.save_answer(window),
+                                                 self.next_button(window)])
             self.btn_3.grid(row=2, column=1, columnspan=2)
             self.btn_4 = Button(window, text=self.the_answers[3],
-                                command=lambda: self.results(4))
+                                command=lambda: [self.results(4),
+                                                 self.save_answer(window),
+                                                 self.next_button(window)])
             self.btn_4.grid(row=2, column=3, columnspan=2)
 
             # back button and next button
             self.bck_button = Button(window, text="<",
                                      command=lambda: [self.back_question(),
                                                       self.back_button(window)
-                                                      ],
-                                     width=3)
-            self.bck_button.grid(row=3, column=2)
-            self.nxt_button = Button(window, text=">",
-                                     command=lambda: [self.save_answer(window),
-                                                      self.next_button(window)
-                                                      ],
-                                     width=3)
-            self.nxt_button.grid(row=3, column=3)
-
+                                                      ])
+            self.bck_button.grid(row=3, column=2, columnspan=2)
             # this adds the question number into a list
             q_num_lbl =f"{self.q_number+1}/{len(self.question_list)}"
             self.numb_lbl = tk.Label(window,
                                      text=q_num_lbl,
-                                     bg = "#FFF")
-            self.numb_lbl.grid(row=3, column=0, sticky = "E")
+                                     bg="#FFF")
+            self.numb_lbl.grid(row=3, column=0, sticky="E")
 
         elif self.q_number == len(self.answer_list):
             # destroy prev. q buttons and labels.
@@ -322,21 +318,28 @@ class Window:
             self.btn_4.destroy()
             self.numb_lbl.destroy()
             self.question_label.destroy()
-            self.nxt_button.destroy()
             self.question_frame.destroy()
 
             self.btn_1 = Button(window, text=self.the_answers[0],
-                                command=lambda: self.results_conjugate(1))
-            self.btn_1.grid(row=1, column=1, columnspan =2)
+                                command=lambda: [self.results(1),
+                                                 self.save_answer(window),
+                                                 self.next_button(window)])
+            self.btn_1.grid(row=1, column=1, columnspan=2)
             self.btn_2 = Button(window, text=self.the_answers[1],
-                                command=lambda: self.results_conjugate(2))
-            self.btn_2.grid(row=1, column=3, columnspan =2)
+                                command=lambda: [self.results(2),
+                                                 self.save_answer(window),
+                                                 self.next_button(window)])
+            self.btn_2.grid(row=1, column=3, columnspan=2)
             self.btn_3 = Button(window, text=self.the_answers[2],
-                                command=lambda: self.results_conjugate(3))
-            self.btn_3.grid(row=2, column=1, columnspan =2)
+                                command=lambda: [self.results(3),
+                                                 self.save_answer(window),
+                                                 self.next_button(window)])
+            self.btn_3.grid(row=2, column=1, columnspan=2)
             self.btn_4 = Button(window, text=self.the_answers[3],
-                                command = lambda: self.results_conjugate(4))
-            self.btn_4.grid(row=2, column=3, columnspan =2)
+                                command=lambda: [self.results(4),
+                                                 self.save_answer(window),
+                                                 self.next_button(window)])
+            self.btn_4.grid(row=2, column=3, columnspan=2)
 
             self.question_frame = tk.Frame(master=window, bg="#ECECEC",
                                            width=200, height=50)
@@ -356,12 +359,6 @@ class Window:
                                      bg = "#fff")
             self.numb_lbl.grid(row=3, column=0, sticky = "E")
 
-            self.nxt_button = Button(window, text=">",
-                                     command=lambda: [
-                                         self.saved_from_back(window),
-                                                      self.next_button(window)
-                                                      ], width=3)
-            self.nxt_button.grid(row=3, column=3)
 
         else:
             self.q_number += 1
@@ -379,7 +376,6 @@ class Window:
         self.btn_3.destroy()
         self.btn_4.destroy()
         self.bck_button.destroy()
-        self.nxt_button.destroy()
         # add the end
         # add results
         if sum(self.result_list) > 0 and sum(self.result_list) <= 4:
