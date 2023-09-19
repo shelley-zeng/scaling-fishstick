@@ -211,7 +211,7 @@ class Window:
             self.btn_4.grid(row=2, column=3, columnspan=2)
 
             # back button and next button
-            self.bck_button = Button(window, text="<",
+            self.bck_button = Button(window, text="BACK",
                                      command=lambda: [self.back_question(),
                                                       self.back_button(window)
                                                       ])
